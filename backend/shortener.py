@@ -35,7 +35,4 @@ def contar_clique(codigo):
     qtd = supabase.table("links").select("qtd_cliques").eq("codigo", codigo).execute()
     valor = qtd.data[0]["qtd_cliques"]
     novo_valor = valor + 1
-    supabase.table("links").update({"qtd_cliques": qtd}).eq("codigo", codigo).execute()
-
-
-    
+    supabase.table("links").update({"qtd_cliques": novo_valor}).eq("codigo", codigo).execute()
