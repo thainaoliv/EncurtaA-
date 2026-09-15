@@ -1,5 +1,5 @@
 import string
-from shortener import gerar_codigo, buscar_url_original
+from shortener import gerar_codigo, buscar_url_original, contar_clique, criar_link
 import shortener
 
 def test_gerar_codigo_():
@@ -25,7 +25,7 @@ def test_buscar_url_original_existe(monkeypatch):
     class QueryFake:
         def select(self, *args): return self
         def eq(self, *args): return self
-        def execute(self, *args): return self
+        def execute(self, *args): return RespostaFake
 
     class SupabaseFake:
         def table(self, *args): return QueryFake()
@@ -36,3 +36,65 @@ def test_buscar_url_original_existe(monkeypatch):
     # 4. Rodar a função e verificar
     resultado = buscar_url_original("qualquercodigo")
     assert resultado == "https://google.com"
+
+def test_buscar_url_original_nao_existe(monkeypatch):
+    class RespostaFake:
+        data = []          # lista vazia = banco não achou nada
+
+    class QueryFake:
+        def select(self, *args): return self
+        def eq(self, *args): return self
+        def execute(self): return RespostaFake()
+
+    class SupabaseFake:
+        def table(self, *args): return QueryFake()
+
+    monkeypatch.setattr(shortener, "supabase", SupabaseFake())
+
+    resultado = buscar_url_original("codigoinexistente")
+    assert resultado is None
+
+def test_contar_cliques(monkeypatch):
+    class RespostaFake:
+        data = [{"qtd_cliques": 5}]        # banco tinha 5 cliques
+
+    class QueryFake:
+        def select(self, *args): return self
+        def eq(self, *args): return self
+        def update(self, dados):
+            self.dados_recebidos = dados    # anota o que recebeu
+            return self
+        def execute(self): return RespostaFake()
+
+    query_fake = QueryFake()               # ← cria UMA vez, guarda na variável
+
+    class SupabaseFake:
+        def table(self, *args): return query_fake   # ← devolve SEMPRE essa mesma
+
+    monkeypatch.setattr(shortener, "supabase", SupabaseFake())
+
+    contar_clique("qualquercodigo")        # roda a função
+
+    # agora o teste pega a variável e espia o que foi guardado
+    assert query_fake.dados_recebidos == {"qtd_cliques": 6}
+
+def test_criar_link_feliz(monkeypatch):
+    class RespostaFake:
+        data = [{"codigo": "abc"}]
+
+    class QueryFake:
+        def insert(self, *args): return self
+        def execute(self): return RespostaFake()
+
+    class SupabaseFake:
+        def table(self, *args): return QueryFake()
+
+    monkeypatch.setattr(shortener, "supabase", SupabaseFake())
+
+    url = criar_link("https://google.com")
+
+    assert url.startswith("https://encurtaa.onrender.com/")
+    assert len(url) == len("https://encurtaa.onrender.com/") + 7
+
+    
+    
