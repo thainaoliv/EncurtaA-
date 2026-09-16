@@ -1,6 +1,7 @@
 import string
 from shortener import gerar_codigo, buscar_url_original, contar_clique, criar_link
 import shortener
+import pytest
 
 def test_gerar_codigo_():
     caracteres_permitidos = string.ascii_letters + string.digits
@@ -96,5 +97,42 @@ def test_criar_link_feliz(monkeypatch):
     assert url.startswith("https://encurtaa.onrender.com/")
     assert len(url) == len("https://encurtaa.onrender.com/") + 7
 
-    
-    
+def test_criar_link_colisao(monkeypatch):
+    class RespostaFake:
+        data = [{"codigo": "abc"}]
+
+    class QueryFake:
+        tentativas = 0    # contador de quantas vezes o execute foi chamado
+
+        def insert(self, *args): return self
+
+        def execute(self):
+            QueryFake.tentativas += 1        # a cada chamada, soma 1
+            if QueryFake.tentativas == 1:    # na 1ª chamada...
+                raise Exception("duplicate key value violates unique constraint")
+            return RespostaFake()            # da 2ª em diante, funciona
+
+    class SupabaseFake:
+        def table(self, *args): return QueryFake()
+
+    monkeypatch.setattr(shortener, "supabase", SupabaseFake())
+
+    url = criar_link("https://google.com")
+
+    assert url.startswith("https://encurtaa.onrender.com/")
+    assert QueryFake.tentativas == 2
+
+def test_criar_link_erro_real(monkeypatch):
+    class QueryFake:
+        def insert(self, *args): return self
+        def execute(self):
+            raise Exception("conncetion timeout")
+
+    class SupaBaseFake:
+        def table(self, *args): return QueryFake()
+
+    monkeypatch.setattr(shortener, "supabase", SupaBaseFake())
+
+    with pytest.raises(Exception):
+        criar_link("https://google.com")
+
