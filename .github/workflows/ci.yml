@@ -18,9 +18,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: Roda os testes
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
-          cd backend
-          python -m pytest
+         cd backend
+         python -m pytest
 
       - name: Dispara deploy no Render
         run: curl "${{ secrets.RENDER_DEPLOY_HOOK }}"
+
+      
