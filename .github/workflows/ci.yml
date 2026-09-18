@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # baixa o código na máquina
+
+      - uses: actions/setup-python@v5 # Instala o python na máquina
+        with:
+          python-version: "3.12"
+
+      - name: Instala dependências
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Roda os testes
+        run: |
+          cd backend
+          python -m pytest
+
+      - name: Dispara deploy no Render
+        run: curl "${{ secrets.RENDER_DEPLOY_HOOK }}"
