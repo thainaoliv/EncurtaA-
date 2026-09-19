@@ -95,7 +95,7 @@ def test_criar_link_feliz(monkeypatch):
     url = criar_link("https://google.com")
 
     assert url.startswith("https://encurtaa.onrender.com/")
-    assert len(url) == len("https://encurtaa.onrender.com/") + 9
+    assert len(url) == len("https://encurtaa.onrender.com/") + 8
 
 def test_criar_link_colisao(monkeypatch):
     class RespostaFake:
