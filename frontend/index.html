@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EncurtaAí — Transforme links longos em algo mais simples</title>
+  <meta name="description" content="Encurtador de links rápido e simples. Cole sua URL, clique em encurtar e pronto.">
+  <meta name="theme-color" content="#4f46e5">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS: a ORDEM importa (cascata). Numerado de propósito. -->
+  <link rel="stylesheet" href="css/01-reset.css">
+  <link rel="stylesheet" href="css/02-tokens.css">
+  <link rel="stylesheet" href="css/03-base.css">
+  <link rel="stylesheet" href="css/04-layout.css">
+  <link rel="stylesheet" href="css/05-components.css">
+</head>
+
+<body>
+
+  <!-- ==========================================================
+       SPRITE DE ÍCONES
+       Todos os SVGs ficam definidos UMA vez aqui dentro.
+       Depois são reutilizados com <use href="#id">.
+       Evita repetir dezenas de linhas de <path> no meio do HTML.
+       ========================================================== -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-link" viewBox="0 0 24 24">
+        <path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>
+      </symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
+      </symbol>
+      <symbol id="i-smartphone" viewBox="0 0 24 24">
+        <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>
+      </symbol>
+      <symbol id="i-share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24">
+        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+      </symbol>
+    </defs>
+  </svg>
+
+
+  <!-- ==========================================================
+       HEADER
+       ========================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+
+      <a class="brand" href="/" aria-label="EncurtaAí — página inicial">
+        <span class="brand__mark">
+          <svg class="icon" aria-hidden="true"><use href="#i-link"></use></svg>
+        </span>
+        <span class="brand__name">Encurta<span class="brand__name-accent">Aí</span></span>
+      </a>
+
+      <p class="site-header__tagline">Links menores. Mais possibilidades.</p>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- ==========================================================
+         HERO — título + formulário + resultado
+         ========================================================== -->
+    <section class="hero">
+      <!-- Formas decorativas do fundo. aria-hidden porque são enfeite. -->
+      <div class="hero__decor" aria-hidden="true">
+        <span class="hero__blob hero__blob--left"></span>
+        <span class="hero__blob hero__blob--right"></span>
+      </div>
+
+      <div class="container hero__inner">
+
+        <p class="badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-link"></use></svg>
+          Encurtador de Links
+        </p>
+
+        <h1 class="hero__title">
+          Transforme links longos<br>
+          em algo mais <span class="text-gradient">simples.</span>
+        </h1>
+
+        <p class="hero__subtitle">
+          Cole sua URL, clique em encurtar e pronto.<br>
+          Rápido, simples e sem complicação.
+        </p>
+
+        <!-- FORMULÁRIO -->
+        <form class="shortener" id="shortenForm" novalidate>
+          <div class="shortener__field">
+            <svg class="icon shortener__icon" aria-hidden="true"><use href="#i-link"></use></svg>
+
+            <label class="visually-hidden" for="urlInput">URL que deseja encurtar</label>
+            <input
+              class="shortener__input"
+              id="urlInput"
+              name="url"
+              type="url"
+              placeholder="Cole aqui a URL que deseja encurtar..."
+              required
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="formFeedback">
+          </div>
+
+          <button class="btn btn--primary" type="submit" id="submitBtn">
+            <svg class="icon btn__icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            <svg class="icon btn__spinner" aria-hidden="true"><use href="#i-spinner"></use></svg>
+            <span class="btn__label">Encurtar</span>
+          </button>
+        </form>
+
+        <!-- Mensagem de erro. role="alert" = leitor de tela anuncia na hora. -->
+        <p class="form-feedback" id="formFeedback" role="alert" hidden></p>
+
+        <!-- RESULTADO. hidden até o JS preencher.
+             aria-live="polite" = anuncia sem interromper o usuário. -->
+        <div class="result" id="result" aria-live="polite" hidden>
+          <p class="result__label">Seu link encurtado</p>
+          <div class="result__row">
+            <a class="result__link" id="resultLink" href="#" target="_blank" rel="noopener noreferrer"></a>
+            <button class="icon-btn" type="button" id="copyBtn" aria-label="Copiar link encurtado">
+              <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         FEATURES
+         ========================================================== -->
+    <section class="features" aria-labelledby="featuresTitle">
+      <div class="container">
+
+        <h2 class="visually-hidden" id="featuresTitle">Vantagens do EncurtaAí</h2>
+
+        <ul class="features__list" role="list">
+
+          <li class="feature">
+            <span class="feature__icon feature__icon--violet">
+              <svg class="icon" aria-hidden="true"><use href="#i-zap"></use></svg>
+            </span>
+            <h3 class="feature__title">Rápido</h3>
+            <p class="feature__text">Seu link encurtado<br>em segundos.</p>
+          </li>
+
+          <li class="feature">
+            <span class="feature__icon feature__icon--green">
+              <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+            </span>
+            <h3 class="feature__title">Seguro</h3>
+            <p class="feature__text">Links confiáveis<br>e protegidos.</p>
+          </li>
+
+          <li class="feature">
+            <span class="feature__icon feature__icon--indigo">
+              <svg class="icon" aria-hidden="true"><use href="#i-smartphone"></use></svg>
+            </span>
+            <h3 class="feature__title">Funciona em qualquer lugar</h3>
+            <p class="feature__text">Acesse de qualquer<br>dispositivo.</p>
+          </li>
+
+          <li class="feature">
+            <span class="feature__icon feature__icon--pink">
+              <svg class="icon" aria-hidden="true"><use href="#i-share"></use></svg>
+            </span>
+            <h3 class="feature__title">Fácil de compartilhar</h3>
+            <p class="feature__text">Mais praticidade<br>no seu dia a dia.</p>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>© 2026 EncurtaAí — projeto de portfólio.</p>
+    </div>
+  </footer>
+
+
+  <!-- JS no fim + type="module" (já é defer por natureza) -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
