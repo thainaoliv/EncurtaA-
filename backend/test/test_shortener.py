@@ -92,10 +92,11 @@ def test_criar_link_feliz(monkeypatch):
 
     monkeypatch.setattr(shortener, "supabase", SupabaseFake())
 
-    url = criar_link("https://google.com")
+    codigo = criar_link("https://google.com")
 
-    assert url.startswith("https://encurtaa.onrender.com/")
-    assert len(url) == len("https://encurtaa.onrender.com/") + 7
+    assert len(codigo) == 7
+    for caractere in codigo:
+        assert caractere in string.ascii_letters + string.digits
 
 def test_criar_link_colisao(monkeypatch):
     class RespostaFake:
@@ -117,9 +118,10 @@ def test_criar_link_colisao(monkeypatch):
 
     monkeypatch.setattr(shortener, "supabase", SupabaseFake())
 
-    url = criar_link("https://google.com")
+    codigo = criar_link("https://google.com")
 
-    assert url.startswith("https://encurtaa.onrender.com/")
+    
+    assert len(codigo) == 7
     assert QueryFake.tentativas == 2
 
 def test_criar_link_erro_real(monkeypatch):
