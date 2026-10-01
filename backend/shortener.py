@@ -22,8 +22,10 @@ def criar_link(url_original):
             else:
                 raise
 
-    url_curta = "https://encurtaa.onrender.com/" + codigo
-    return url_curta
+    # Devolve SÓ o código. Montar a URL pública (com domínio e porta) é
+    # trabalho da api.py, que é quem sabe em que endereço o servidor está
+    # rodando — local ou na nuvem.
+    return codigo
 
 def buscar_url_original(codigo):
     resposta = supabase.table("links").select("url_original").eq("codigo", codigo).execute()
