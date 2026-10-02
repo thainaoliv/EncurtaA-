@@ -1,0 +1,135 @@
+/* ============================================================
+   04-layout.css — estrutura: container, header, seções, footer.
+   Aqui mandamos em POSIÇÃO e ESPAÇO. Cor e enfeite ficam no 05.
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+
+/* ------------------------------------------------------------
+   HEADER
+   ------------------------------------------------------------ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition);
+}
+
+/* Classe que o JS adiciona quando a página é rolada */
+.site-header.is-scrolled { border-bottom-color: var(--border); }
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 74px;
+}
+
+.site-header__tagline {
+  font-size: .9rem;
+  color: var(--text-muted);
+}
+
+
+/* ------------------------------------------------------------
+   HERO
+   ------------------------------------------------------------ */
+.hero {
+  position: relative;
+  overflow: hidden;            /* corta as bolhas que vazam */
+  padding-block: var(--space-8) var(--space-7);
+}
+
+.hero__inner {
+  position: relative;          /* fica ACIMA das bolhas */
+  z-index: 1;
+  text-align: center;
+}
+
+.hero__decor { position: absolute; inset: 0; }
+
+.hero__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(8px);
+}
+
+.hero__blob--left {
+  top: -220px; left: -180px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(99,102,241,.20), transparent 68%);
+}
+
+.hero__blob--right {
+  top: 60px; right: -200px;
+  width: 620px; height: 620px;
+  background: radial-gradient(circle, rgba(139,92,246,.14), transparent 68%);
+}
+
+.hero__title {
+  font-size: var(--fs-h1);
+  line-height: 1.06;
+  margin-block: var(--space-5) var(--space-4);
+}
+
+.hero__subtitle {
+  font-size: var(--fs-lead);
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+
+/* ------------------------------------------------------------
+   FEATURES
+   ------------------------------------------------------------ */
+.features { padding-block: var(--space-6) var(--space-8); }
+
+.features__list {
+  display: grid;
+  /* auto-fit + minmax = quantas colunas couberem, sem media query.
+     Em telas largas dá 4; apertando vira 2; no celular vira 1. */
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--space-6) var(--space-5);
+}
+
+
+/* ------------------------------------------------------------
+   FOOTER
+   ------------------------------------------------------------ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: var(--space-5);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;     /* centraliza o bloco inteiro */
+  gap: var(--space-2) var(--space-5);
+  text-align: center;          /* centraliza cada linha ao quebrar */
+  font-size: .85rem;
+  color: var(--text-subtle);
+}
+
+
+/* ------------------------------------------------------------
+   AJUSTES DE TELA PEQUENA
+   ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .site-header__tagline { display: none; }
+
+  .hero { padding-block: var(--space-7) var(--space-6); }
+  .hero__title br,
+  .hero__subtitle br { display: none; }
+}

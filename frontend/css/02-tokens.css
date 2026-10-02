@@ -1,0 +1,78 @@
+/* ============================================================
+   02-tokens.css — as VARIÁVEIS do projeto.
+
+   Regra de ouro: NENHUMA cor solta (#fff, #333...) no resto do CSS.
+   Tudo sai daqui. É isso que faz o tema escuro custar 15 linhas
+   em vez de reescrever o projeto inteiro.
+   ============================================================ */
+
+:root {
+
+  /* --- Paleta da marca (não muda entre os temas) --- */
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --violet-500: #8b5cf6;
+  --blue-500: #3b82f6;
+
+  --gradient-brand: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --gradient-text:  linear-gradient(100deg, #3b82f6 0%, #8b5cf6 100%);
+
+  /* --- Cores por PAPEL, não por aparência ---
+     "--surface" descreve a função (superfície de cartão).
+     "--branco" descreveria só a aparência — e travaria qualquer
+     mudança de identidade visual no futuro. */
+  --bg:          #ffffff;
+  --bg-soft:     #eef0fb;   /* fundo da seção Exemplo */
+  --surface:     #ffffff;   /* cartões */
+  --surface-2:   #f6f8fc;   /* campos dentro de cartões */
+  --border:      #e8ebf5;
+  --border-soft: #f0f2f9;
+
+  --text:        #0f172a;
+  --text-muted:  #64748b;
+  --text-subtle: #94a3b8;
+
+  --accent-text: var(--brand-600);
+  --accent-soft: #eef0fe;   /* fundo do chip de URL encurtada */
+
+  /* Tons dos ícones das features */
+  --tint-violet-bg: #f0eefe;  --tint-violet-fg: #7c3aed;
+  --tint-green-bg:  #e7f7ef;  --tint-green-fg:  #10b981;
+  --tint-indigo-bg: #eef0fe;  --tint-indigo-fg: #6366f1;
+  --tint-pink-bg:   #fdeef2;  --tint-pink-fg:   #ec4899;
+
+  --danger:      #dc2626;
+  --danger-bg:   #fef2f2;
+  --success:     #10b981;
+
+  /* --- Sombras --- */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, .06);
+  --shadow-lg: 0 18px 50px -12px rgba(15, 23, 42, .14);
+  --shadow-brand: 0 10px 28px -8px rgba(79, 70, 229, .5);
+
+  /* --- Tipografia --- */
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* clamp(mínimo, fluido, máximo) = fonte que cresce com a tela
+     sozinha, sem precisar de media query. */
+  --fs-h1:   clamp(2.1rem, 1.2rem + 3.6vw, 4.25rem);
+  --fs-h2:   clamp(1.6rem, 1.1rem + 2vw, 2.65rem);
+  --fs-lead: clamp(1rem, .95rem + .3vw, 1.15rem);
+
+  /* --- Espaçamento (escala, não números aleatórios) --- */
+  --space-1: .25rem;  --space-2: .5rem;   --space-3: .75rem;
+  --space-4: 1rem;    --space-5: 1.5rem;  --space-6: 2rem;
+  --space-7: 3rem;    --space-8: 4rem;    --space-9: 6rem;
+
+  /* --- Cantos --- */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+
+  --container: 1180px;
+  --transition: 180ms ease;
+}

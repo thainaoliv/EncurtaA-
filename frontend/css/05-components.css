@@ -1,0 +1,251 @@
+/* ============================================================
+   05-components.css — as peças reutilizáveis.
+   Vem por último: pode sobrescrever tudo que veio antes.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   MARCA
+   ------------------------------------------------------------ */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  color: var(--brand-600);
+}
+
+.brand__mark .icon { width: 30px; height: 30px; stroke-width: 2.4; }
+
+.brand__name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.brand__name-accent { color: var(--brand-600); }
+
+
+/* ------------------------------------------------------------
+   BADGE (pílula)
+   ------------------------------------------------------------ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: .5rem 1.05rem;
+  border-radius: var(--radius-full);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.badge .icon { width: 17px; height: 17px; }
+
+
+/* ------------------------------------------------------------
+   BOTÕES
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 1.05rem 2rem;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+}
+
+.btn--primary {
+  background-image: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-brand);
+}
+
+.btn--primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px -8px rgba(79, 70, 229, .6);
+}
+
+.btn--primary:active:not(:disabled) { transform: translateY(0); }
+
+.btn:disabled { opacity: .65; cursor: not-allowed; }
+
+.btn__icon    { width: 18px; height: 18px; }
+.btn__spinner { width: 18px; height: 18px; display: none; }
+
+/* Estado de carregando: troca a seta pelo spinner.
+   A classe .is-loading será colocada pelo JS na etapa 3. */
+.shortener.is-loading .btn__icon    { display: none; }
+.shortener.is-loading .btn__spinner { display: block; animation: spin .8s linear infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* Botão só de ícone (copiar) */
+.icon-btn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-sm);
+  color: var(--text-subtle);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.icon-btn:hover { background-color: var(--surface-2); color: var(--accent-text); }
+.icon-btn .icon { width: 18px; height: 18px; }
+
+/* .is-copied é adicionada pelo JS por ~2s após copiar */
+.icon-btn.is-copied { color: var(--success); }
+
+
+/* ------------------------------------------------------------
+   FORMULÁRIO
+   ------------------------------------------------------------ */
+.shortener {
+  display: flex;
+  gap: var(--space-3);
+  max-width: 840px;
+  margin-inline: auto;
+  padding: var(--space-3);
+  background-color: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.shortener__field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;                /* deixa o input encolher de verdade */
+  padding-inline: var(--space-5);
+  background-color: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+/* :focus-within = "algum filho meu está focado".
+   É assim que a borda acende quando o cursor entra no input. */
+.shortener__field:focus-within {
+  border-color: var(--brand-500);
+  background-color: var(--surface);
+}
+
+.shortener__icon { color: var(--text-subtle); flex-shrink: 0; }
+
+.shortener__input {
+  flex: 1;
+  min-width: 0;
+  padding-block: 1.1rem;
+  background: none;
+  border: none;
+  outline: none;               /* o anel já está no .shortener__field */
+  font-size: 1rem;
+}
+
+.shortener__input::placeholder { color: var(--text-subtle); }
+
+@media (max-width: 640px) {
+  .shortener { flex-direction: column; border-radius: var(--radius-lg); }
+  .btn { width: 100%; }
+}
+
+
+/* ------------------------------------------------------------
+   FEEDBACK E RESULTADO
+   ------------------------------------------------------------ */
+.form-feedback {
+  max-width: 840px;
+  margin: var(--space-4) auto 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--danger-bg);
+  color: var(--danger);
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.result {
+  max-width: 840px;
+  margin: var(--space-5) auto 0;
+  padding: var(--space-5);
+  text-align: left;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.result__label {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: var(--space-2);
+}
+
+.result__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.result__link {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+.result__link:hover { text-decoration: underline; }
+
+
+/* ------------------------------------------------------------
+   FEATURES
+   ------------------------------------------------------------ */
+.feature { text-align: center; }
+
+.feature__icon {
+  display: grid;
+  place-items: center;
+  width: 54px; height: 54px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.feature__icon .icon { width: 23px; height: 23px; }
+
+.feature__icon--violet { background-color: var(--tint-violet-bg); color: var(--tint-violet-fg); }
+.feature__icon--green  { background-color: var(--tint-green-bg);  color: var(--tint-green-fg); }
+.feature__icon--indigo { background-color: var(--tint-indigo-bg); color: var(--tint-indigo-fg); }
+.feature__icon--pink   { background-color: var(--tint-pink-bg);   color: var(--tint-pink-fg); }
+
+.feature__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.feature__text {
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
