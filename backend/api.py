@@ -55,7 +55,6 @@ class LinkRequest(BaseModel):
 
 
 # A página inicial. Sem esta rota, abrir o endereço "pelado" do servidor
-# (ex.: https://encurtaa.onrender.com/) devolve 404, porque /{codigo} exige
 # pelo menos um caractere e não cobre a raiz.
 # FileResponse manda um arquivo do disco como resposta HTTP.
 @app.get("/")
