@@ -24,7 +24,6 @@ def criar_link(url_original):
 
     # Devolve SÓ o código. Montar a URL pública (com domínio e porta) é
     # trabalho da api.py, que é quem sabe em que endereço o servidor está
-    # rodando — local ou na nuvem.
     return codigo
 
 def buscar_url_original(codigo):
